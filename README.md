@@ -21,3 +21,11 @@ $ go install github.com/a-poor/wiggle@latest
 * `github.com/briandowns/spinner`: For displaying a terminal spinner while `wiggle` is running
 
 
+## ToDo
+
+* Handle keyboard interrupt
+* Add flag to optionally click
+* Add flag to set move/click intervals
+* Add flag to set max time for moving the mouse
+
+
