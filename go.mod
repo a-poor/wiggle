@@ -1,4 +1,4 @@
-module wiggle
+module github.com/a-poor/wiggle
 
 go 1.17
 
