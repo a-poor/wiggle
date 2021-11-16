@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"math/rand"
 	"os"
@@ -12,6 +11,12 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+const (
+	SpinnerColor = "green"
+	SpinnerSleep = time.Millisecond * 100
+	MouseSleep   = time.Second * 5
+)
+
 func main() {
 	app := &cli.App{
 		Name:  "wiggle",
@@ -20,9 +25,9 @@ func main() {
 			// Start running the spinner
 			s := spinner.New(
 				spinner.CharSets[11],
-				100*time.Millisecond,
+				SpinnerSleep,
 			)
-			s.Color("green")
+			s.Color(SpinnerColor)
 			s.Suffix = " Wiggling..."
 			s.FinalMSG = "Done Wiggling!"
 			s.Start()
@@ -46,7 +51,7 @@ func main() {
 				robotgo.MoveSmooth(x, y)
 
 				// Sleep
-				time.Sleep(time.Second * 5)
+				time.Sleep(MouseSleep)
 			}
 
 			return nil
@@ -58,5 +63,4 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Done.")
 }
