@@ -12,16 +12,35 @@ import (
 )
 
 const (
-	SpinnerColor = "green"
-	SpinnerSleep = time.Millisecond * 100
-	MouseSleep   = time.Second * 5
+	SpinnerColor      = "green"
+	SpinnerSleep      = time.Millisecond * 100
+	MouseSleep        = time.Second * 5
+	DefaultMouseSleep = time.Second * 5
+	DefaultMouseSpeed = time.Second * 1
 )
 
 func main() {
 	app := &cli.App{
 		Name:  "wiggle",
 		Usage: "Move the mouse around to keep your screen from sleeping!",
+		Flags: []cli.Flag{
+			&cli.DurationFlag{
+				Name:    "mouse-speed",
+				Aliases: []string{"d"},
+				Usage:   "Speed at-which to move the mouse.",
+				Value:   DefaultMouseSpeed,
+			},
+			&cli.DurationFlag{
+				Name:    "mouse-sleep",
+				Aliases: []string{"s"},
+				Usage:   "Time to sleep between mouse movements.",
+				Value:   DefaultMouseSleep,
+			},
+		},
 		Action: func(c *cli.Context) error {
+			mouseSpeed := c.Duration("mouse-speed").Milliseconds()
+			mouseSleep := c.Duration("mouse-sleep")
+
 			// Start running the spinner
 			s := spinner.New(
 				spinner.CharSets[11],
@@ -48,13 +67,13 @@ func main() {
 				y := rng.Intn(height)
 
 				// Move the mouse to a random location
-				robotgo.MoveSmooth(x, y)
+				robotgo.MoveSmooth(x, y, 1.0, mouseSpeed)
 
 				// Sleep
-				time.Sleep(MouseSleep)
+				time.Sleep(mouseSleep)
 			}
 
-			return nil
+			return nil // Unreachable
 		},
 	}
 
